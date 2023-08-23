@@ -3,6 +3,7 @@ import './App.css'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Layout from './Layout'
+import Register from './pages/Register'
 
 function App(): JSX.Element {
   const router = createBrowserRouter(
@@ -17,17 +18,21 @@ function App(): JSX.Element {
               element: <Home />
             },
             {
-              path: '/about',
+              path: 'about',
               element: <div>About</div>,
             },
             {
-              path: '/login',
+              path: 'login',
               element: <Login />
+            },
+            {
+              path: 'register',
+              element: <Register/>
             }
           ]
       }])
   return (
-    <RouterProvider router={router}></RouterProvider>
+    <RouterProvider router={router}/>
   )
 }
 
