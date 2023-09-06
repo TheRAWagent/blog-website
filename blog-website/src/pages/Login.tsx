@@ -5,24 +5,33 @@ import { useState } from "react"
 function Login() {
   const Navigate = useNavigate()
   const [user, setUser] = useState<{ username: string, password: string }>({ username: '', password: '' })
+  const [redirect,setRedirect]=useState<boolean>(false)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [e.target.name]: e.target.value })
   }
-  const sendLoginRequest = () => {
-    fetch('http://localhost:3000/api/login', {
+  const sendLoginRequest = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    fetch(`http://localhost:3000/api/login`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        ...user
       },
-      body: JSON.stringify(user)
-    }).then(res => res.json()).then(data => {
-      if (data.success) {
-        Navigate('/dashboard')
+    }).then((res: Response) => res.json()).then((data: { ok: boolean}) => {
+      if (data.ok) {
+        // console.log(data);
+        // alert(JSON.stringify(data));
+        // Navigate('/dashboard');
+        setRedirect(true)
       } else {
-        alert(data.message)
+        alert('Invalid Credentials');
       }
-    })
-
+    }).catch((error: Error) => {
+      console.error(error);
+    });
+  };
+  if(redirect){
+    Navigate('/');
   }
   return (
 

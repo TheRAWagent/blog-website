@@ -4,6 +4,22 @@ import { Outlet } from "react-router"
 
 
 function Layout() {
+  fetch('http://localhost:3000/api/profile', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include'
+  }).then((res: Response) => {
+    return res.json()
+  }).then((data: { ok: boolean }) => {
+    if (data.ok) {
+      console.log(data);
+    }
+    else {
+      console.log('Not logged in');
+    }
+  }).catch(err => console.log(err))
   return (
     <Main>
         <Header/>

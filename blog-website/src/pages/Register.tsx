@@ -22,8 +22,16 @@ function Register() {
               email: email,
               password: password
             })
-        }).then(()=>{
-          console.log('request sent')
+        }).then((res: Response)=>{
+          return res.json()
+        }).then((data: {ok: boolean})=>{
+          if(data.ok){
+            alert('User Registered')
+            Navigate('/login')
+          }
+          else{
+            alert('User already exists')
+          }
         })
         .catch(err=>console.log(err))
       }
