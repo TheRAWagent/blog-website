@@ -12,7 +12,7 @@ const Profile = async (req: Request, res: Response) => {
             return res.status(500).json({error: error})
         }
         else{
-            return res.status(200).json(decoded)
+            res.json({email: decoded.email,username: decoded.username})
         }
     })
 }

@@ -22,7 +22,10 @@ const Login = async (req: Express.Request, res: Express.Response) => {
                         return res.status(500).json({error: error})
                     }
                     else
-                    return res.cookie('token',token).json({ok: true});
+                    {
+                        // console.log(token);
+                        res.cookie('token',token).json({ok: true,token: token,username: user.username,email: user.email})
+                    }
                 });
             }
             else

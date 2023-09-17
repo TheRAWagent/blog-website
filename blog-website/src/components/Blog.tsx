@@ -9,10 +9,10 @@ interface BlogProps {
         summary: string;
 }
 
-function Blog({ item, key }: {item: BlogProps, key: number}) {
+function Blog({item}: {item: BlogProps}) {
     const { src, heading, author, date, summary } = item
     return (
-        <Bloge key={key}>
+        <Bloge>
             <Image src={src} />
             <Content>
                 <Heading>{heading}</Heading>

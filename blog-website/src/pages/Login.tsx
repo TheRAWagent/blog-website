@@ -1,9 +1,11 @@
 import styled from "styled-components"
 import { useNavigate } from "react-router"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { UserContext } from "../UseContext"
 
 function Login() {
   const Navigate = useNavigate()
+  const {setUserInfo}=useContext(UserContext)
   const [user, setUser] = useState<{ username: string, password: string }>({ username: '', password: '' })
   const [redirect,setRedirect]=useState<boolean>(false)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,24 +14,22 @@ function Login() {
   const sendLoginRequest = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     fetch(`http://localhost:3000/api/login`, {
+      credentials: 'include',
+      mode: 'cors',
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
-        ...user
+        'Content-Type': 'Application/json',
+        'username': user.username,
+        'password': user.password
       },
-    }).then((res: Response) => res.json()).then((data: { ok: boolean}) => {
-      if (data.ok) {
-        // console.log(data);
-        // alert(JSON.stringify(data));
-        // Navigate('/dashboard');
-        setRedirect(true)
-      } else {
-        alert('Invalid Credentials');
-      }
+    }).then((res: Response) => res.json()).then((data: {ok: boolean,token: string|null,username: string,email: string}) => {
+      setUserInfo({username:data.username,email:data.username})
+      setRedirect(true)
+      
     }).catch((error: Error) => {
       console.error(error);
     });
-  };
+  }
   if(redirect){
     Navigate('/');
   }
